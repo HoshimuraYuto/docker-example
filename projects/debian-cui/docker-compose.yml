@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  debian-cui:
+    build: .
+    tty: true
+    container_name: debian-cui
+    image: debian-cui
