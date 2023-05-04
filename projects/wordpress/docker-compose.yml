@@ -1,0 +1,66 @@
+version: "3"
+
+services:
+  wordpress:
+    build:
+      context: .
+      dockerfile: ./docker/wordpress/Dockerfile
+      args:
+        WORDPRESS_VERSION: ${WORDPRESS_VERSION}
+    restart: always
+    tty: true
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: ${DB_HOST}
+      WORDPRESS_DB_NAME: ${DB_NAME}
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      # all wordpress files
+      - ./wordpress:/var/www/html
+      # wordpress themes directory
+      # - ./example-theme:/var/www/html/wp-content/themes/example-theme
+      # wordpress plugins directory
+      # - ./example-plugin:/var/www/html/wp-content/plugins/example-plugin
+    container_name: wordpress
+    image: wordpress:${WORDPRESS_VERSION}
+
+  mysql:
+    build:
+      context: .
+      dockerfile: ./docker/mysql/Dockerfile
+      args:
+        MYSQL_VERSION: ${MYSQL_VERSION}
+    restart: always
+    tty: true
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_RANDOM_ROOT_PASSWORD: "1"
+    # volumes:
+    #   # mysql files
+    #   - ./mysql:/var/lib/mysql
+    container_name: mysql
+    image: mysql:${MYSQL_VERSION}
+
+  phpmyadmin:
+    build:
+      context: .
+      dockerfile: ./docker/phpmyadmin/Dockerfile
+      args:
+        PHPMYADMIN_VERSION: ${PHPMYADMIN_VERSION}
+    restart: always
+    ports:
+      - 8081:80
+    environment:
+      PMA_HOST: ${DB_HOST}
+      PMA_USER: ${DB_USER}
+      PMA_PASSWORD: ${DB_PASSWORD}
+    container_name: phpmyadmin
+    image: phpmyadmin:${PHPMYADMIN_VERSION}
+
+volumes:
+  wordpress:
+  mysql:
