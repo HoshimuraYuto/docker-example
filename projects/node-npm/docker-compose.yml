@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  node-npm:
+    build:
+      context: .
+      args:
+        DOCKER_NODE_VERSION: ${DOCKER_NODE_VERSION}
+        NPM_VERSION: ${NPM_VERSION}
+        APP_PORT: ${APP_PORT}
+    restart: always
+    tty: true
+    ports:
+      - ${LOCALHOST_PORT}:${APP_PORT}
+    container_name: node-npm
+    image: node-npm:${DOCKER_NODE_VERSION}
