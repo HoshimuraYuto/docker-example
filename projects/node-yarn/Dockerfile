@@ -13,7 +13,7 @@ COPY yarn.lock ./
 RUN rm /usr/local/bin/yarn \
   && rm /usr/local/bin/yarnpkg \
   && npm install -g yarn@$YARN_VERSION \
-  && npm install
+  && yarn install
 
 COPY ./ ./
 
