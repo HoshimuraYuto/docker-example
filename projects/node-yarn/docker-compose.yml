@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  node-yarn:
+    build:
+      context: .
+      args:
+        DOCKER_NODE_VERSION: ${DOCKER_NODE_VERSION}
+        YARN_VERSION: ${YARN_VERSION}
+        APP_PORT: ${APP_PORT}
+    restart: always
+    tty: true
+    ports:
+      - ${LOCALHOST_PORT}:${APP_PORT}
+    container_name: node-yarn
+    image: node-yarn:${DOCKER_NODE_VERSION}
