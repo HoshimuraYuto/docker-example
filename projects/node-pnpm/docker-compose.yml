@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  node-pnpm:
+    build:
+      context: .
+      args:
+        DOCKER_NODE_VERSION: ${DOCKER_NODE_VERSION}
+        PNPM_VERSION: ${PNPM_VERSION}
+        APP_PORT: ${APP_PORT}
+    restart: always
+    tty: true
+    ports:
+      - ${LOCALHOST_PORT}:${APP_PORT}
+    container_name: node-pnpm
+    image: node-pnpm:${DOCKER_NODE_VERSION}
