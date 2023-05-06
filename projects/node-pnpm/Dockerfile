@@ -10,11 +10,15 @@ WORKDIR /usr/src/app
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 
-RUN npm install -g pnpm@$PNPM_VERSION \
+RUN rm /usr/local/bin/yarn \
+  && rm /usr/local/bin/yarnpkg \
+  && npm uninstall -g npm \
+  && corepack enable pnpm \
+  && corepack prepare pnpm@$PNPM_VERSION --activate \
   && pnpm install
 
 COPY ./ ./
 
 EXPOSE $APP_PORT
 
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]

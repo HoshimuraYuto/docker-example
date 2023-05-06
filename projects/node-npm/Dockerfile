@@ -9,7 +9,9 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install -g npm@$NPM_VERSION \
+RUN rm /usr/local/bin/yarn \
+  && rm /usr/local/bin/yarnpkg \
+  && npm install -g npm@$NPM_VERSION \
   && npm install
 
 COPY ./ ./
