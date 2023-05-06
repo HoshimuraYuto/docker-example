@@ -12,11 +12,13 @@ COPY yarn.lock ./
 
 RUN rm /usr/local/bin/yarn \
   && rm /usr/local/bin/yarnpkg \
-  && npm install -g yarn@$YARN_VERSION \
+  && npm uninstall -g npm \
+  && corepack enable yarn \
+  && corepack prepare yarn@$YARN_VERSION --activate \
   && yarn install
 
 COPY ./ ./
 
 EXPOSE $APP_PORT
 
-CMD ["npm", "start"]
+CMD ["yarn", "start"]
